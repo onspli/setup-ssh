@@ -1,0 +1,35 @@
+name: Setup SSH
+description: Setup SSH
+inputs:
+  private-key:
+    required: true
+  host:
+    required: true
+  user:
+    required: true
+  port:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup SSH
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        chmod 0700 ~/.ssh
+
+        touch ~/.ssh/key
+        chmod 0600 ~/.ssh/key
+        echo "${{ inputs.private-key }}" > ~/.ssh/key
+
+        touch ~/.ssh/config
+        chmod 644 ~/.ssh/config
+
+        echo "Host ${{ inputs.host }}" >> ~/.ssh/config
+        echo "  HostName ${{ inputs.host }}" >> ~/.ssh/config
+        echo "  User ${{ inputs.user }}" >> ~/.ssh/config
+        echo "  Port ${{ inputs.port }}" >> ~/.ssh/config
+        echo "  IdentityFile ~/.ssh/key" >> ~/.ssh/config
+        cat ~/.ssh/config
+
+        ssh-keyscan -p ${{ inputs.port }} ${{ inputs.host }} >> ~/.ssh/known_hosts
