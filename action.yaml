@@ -34,4 +34,4 @@ runs:
         echo "  IdentityFile ~/.ssh/key" >> ~/.ssh/config
         cat ~/.ssh/config
 
-        ssh-keyscan -p ${{ inputs.port }} ${{ inputs.host }} >> ~/.ssh/known_hosts
+        ssh-keyscan -p ${{ inputs.port }} ${{ inputs.hostname || inputs.host }} >> ~/.ssh/known_hosts
