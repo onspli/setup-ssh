@@ -5,6 +5,8 @@ inputs:
     required: true
   host:
     required: true
+  hostname:
+    required: false
   user:
     required: true
   port:
@@ -26,7 +28,7 @@ runs:
         chmod 644 ~/.ssh/config
 
         echo "Host ${{ inputs.host }}" >> ~/.ssh/config
-        echo "  HostName ${{ inputs.host }}" >> ~/.ssh/config
+        echo "  HostName ${{ inputs.hostname || inputs.host }}" >> ~/.ssh/config
         echo "  User ${{ inputs.user }}" >> ~/.ssh/config
         echo "  Port ${{ inputs.port }}" >> ~/.ssh/config
         echo "  IdentityFile ~/.ssh/key" >> ~/.ssh/config
